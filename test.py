@@ -13,8 +13,8 @@ class place:
             self.connection=[]
 
     def input_name(self):
-        in=str(input("Enter the place name : "))
-        self.name=in
+        in_name=str(input("Enter the place name : "))
+        self.name=in_name
 class tree:
     def __init__(self,name) :
         a=place(name)
