@@ -16,6 +16,7 @@ class tree:
         a=place(name)
         self.start=a
 
+# Mass ka baap
     def add_connection(self,count):
         inserter=[]
         for i in range(count):

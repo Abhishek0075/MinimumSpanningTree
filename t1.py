@@ -40,7 +40,7 @@ class place:
         else:
             self.name=args[0]
             self.connection=[]
-
+# Dasa ni mess ano
     def printname(self):
         print(self.name)
 
