@@ -1,7 +1,3 @@
-
-from turtle import distance
-
-
 class place:
     def __init__(self,*args):
         if (len(args)==0):
@@ -30,4 +26,3 @@ class tree:
             inserter.append(distance)
             self.connection.append(inserter)
             
-    
