@@ -44,9 +44,8 @@ class place:
     def printname(self):
         print(self.name)
 
-
 a=place()
-a.printname()
+# a.printname()
 
 b=place("Dasan",1)
 b.printname()
