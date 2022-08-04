@@ -11,6 +11,10 @@ class place:
         else:
             self.name=args[0]
             self.connection=[]
+
+    def input_name(self):
+        in=str(input("Enter the place name : "))
+        self.name=in
 class tree:
     def __init__(self,name) :
         a=place(name)
