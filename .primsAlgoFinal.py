@@ -1,19 +1,13 @@
 class place:
     def __init__(self,*args):
         if (len(args)==0):
-            self.attendence=None
             self.name=None
             self.connection=[]
 
         else:
-            self.attendence=None
             self.name=args[0]
             self.connection=[]
             #Structure of connection-> [["str(placeName)",int(Distance)]]
-    
-    def inputName(self):
-        inName=str(input("Enter the place name : "))
-        self.name=inName
 
     def getName(self):
         return self.name
@@ -22,10 +16,12 @@ class place:
         for i in range(count):
             inserter=[]
             #The place name and distance are the connection details
-            placeName=str(input("Enter the place name : "))
+            placeName=str(input("Enter the name of place "+str(i+1)+" connected to "+self.name+" : "))
+            placeName=placeName.capitalize()
             while((placeName=="") or (placeName==" ")):
                 print("INVALID ENTRY")
-                placeName=str(input("Enter the place name : "))
+                placeName=str(input("Enter the name of place "+str(i+1)+" connected to "+self.name+" : "))
+                placeName=placeName.capitalize()
             inserter.append(placeName)
             print("Enter the distance between "+self.name+" and "+placeName+ " : ",end="")
             distance=int(input())
@@ -109,44 +105,53 @@ def traverse(root,goal,path,Placelist):
         if(min[0]==i.name):
             path.append(i)
             for i in path:
-                print(i.name,end="")
+                print(i.name,end=" ")
             print()
             result=traverse(i,goal,path,Placelist)
             return result
         # end if
     # end for 
 # end function
-def PrimsAlgo(PlaceList,goal):
+def PrimsAlgo(PlaceList,start,goal):
     path=[]
-    start=PlaceList[0]
-    path.append(start)
-    result=traverse(start,goal,path,PlaceList)
-    print("result = "+str(result))
+    for i in allPlaces:
+        if(i.name==start):
+            startObj=i
+            break
+    path.append(startObj)
+    result=traverse(startObj,goal,path,PlaceList)
     if(result==-1):
-        print("The finishing point can't be found using the Prim's algorithm due to its greed")
-        print("final deadend way is :-" )
-    else: 
+        for i in PlaceList:
+            if(goal==i.name):
+                print("!!! Destination not found using the Prim's algorithm due to its greed !!!")
+                print("Final way till the DEADEND= ",end="")
+    else:
         print("Destination found")
+        print("path = ",end=" ")
     for each in path:
-        print(each.name,end="")
+        print(each.name,end=" ")
 
-# main part
+
+                                # MAIN PART
+
 
 nodeNo=int(input("Enter the number of places in the map : "))
 allPlaces=[]
 # Creating the all node list
 print("Enter the places In a way,the first entry is the start position")
 for i in range(nodeNo):
-    print("  Enter the name of place "+str(i+1)+" : ",end="")
+    print("  Enter the name of place ",(i+1)," : ",end="")
     names=str(input())
+    names=names.capitalize()
     while((names=="") or (names==" ")):
                 print("      !!! INVALID ENTRY !!!")
-                print("  Enter the name of place "+str(i+1)+" : ",end="")
+                print("  Enter the name of place ",(i+1)," : ",end="")
                 names=str(input())
+                names=names.capitalize()
     placeObj=place(names)
     allPlaces.append(placeObj)
     
-    
+
 for node in allPlaces:
     connectionNo=int(input("Enter the number of places connected to "+node.getName()+" : "))
     node.addConnection(connectionNo)
@@ -155,4 +160,29 @@ for node in allPlaces:
 #     print(temp)
 #     node.printConnection()
 
-PrimsAlgo(allPlaces,"F")
+startChecker=1
+start=str(input("Enter the start position name : "))
+start=start.capitalize()
+while(startChecker==1):
+    for i in allPlaces:
+        if(i.name==start):
+            startChecker=0
+            break
+    if(startChecker==1):
+        print("!! Entered start is not in the Map !!")
+        start=str(input("Enter the start position name : "))
+        start=start.capitalize()
+
+goalChecker=1
+goal=str(input("Enter the final position name : "))
+goal=goal.capitalize()
+while(goalChecker==1):
+    for i in allPlaces:
+        if(i.name==goal):
+            goalChecker=0
+            break
+    if(goalChecker==1):
+        print("!! Entered goal is not in the Map !!")
+        goal=str(input("Enter the start position name : "))
+        goal=goal.capitalize()
+PrimsAlgo(allPlaces,start,goal)

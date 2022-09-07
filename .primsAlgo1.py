@@ -1,12 +1,10 @@
 class place:
     def __init__(self,*args):
         if (len(args)==0):
-            self.attendence=None
             self.name=None
             self.connection=[]
 
         else:
-            self.attendence=None
             self.name=args[0]
             self.connection=[]
             #Structure of connection-> [["str(placeName)",int(Distance)]]
@@ -78,48 +76,55 @@ def mergeSort(arr):
 	return arr
 
 def traverse(root,goal,path,Placelist):
+    
     if(root.name==goal):
-        return path
+        return 0
     # end if 
     sortedConnection=mergeSort(root.connection)
     print(sortedConnection)
     # Selecting the minimum distant connection and connection which is not in the path 
-
+    ZeroCount=0
     for sortElement in sortedConnection:
         count=0
         length=len(path)
+        sortLength=len(sortedConnection)
         min=sortElement
         for pathObj in path:
             if(pathObj.name==min[0]):
-                count=1;
+                count=1
                 break
         if(count!=1):
             break
         else:
             ZeroCount=ZeroCount+1
         
-        if(ZeroCount==length):
-            return path
+        if(ZeroCount==sortLength):
+            return -1
+        
         # end for
     # end for
     for i in Placelist:
         if(min[0]==i.name):
-            
             path.append(i)
             for i in path:
                 print(i.name,end="")
             print()
-            traverse(i,goal,path,Placelist)
+            result=traverse(i,goal,path,Placelist)
+            return result
         # end if
     # end for 
 # end function
 def PrimsAlgo(PlaceList,goal):
     path=[]
-    min=1000
     start=PlaceList[0]
     path.append(start)
     result=traverse(start,goal,path,PlaceList)
-    
+    print("result = ",(result))
+    if(result==-1):
+        print("The finishing point can't be found using the Prim's algorithm due to its greed")
+        print("final deadend way is :-" )
+    else: 
+        print("Destination found")
     for each in path:
         print(each.name,end="")
 
@@ -130,11 +135,11 @@ allPlaces=[]
 # Creating the all node list
 print("Enter the places In a way,the first entry is the start position")
 for i in range(nodeNo):
-    print("  Enter the name of place "+str(i+1)+" : ",end="")
+    print("  Enter the name of place ",(i+1)," : ",end="")
     names=str(input())
     while((names=="") or (names==" ")):
                 print("      !!! INVALID ENTRY !!!")
-                print("  Enter the name of place "+str(i+1)+" : ",end="")
+                print("  Enter the name of place ",(i+1)," : ",end="")
                 names=str(input())
     placeObj=place(names)
     allPlaces.append(placeObj)
@@ -148,4 +153,4 @@ for node in allPlaces:
 #     print(temp)
 #     node.printConnection()
 
-PrimsAlgo(allPlaces,"Dasan")
+PrimsAlgo(allPlaces,"F")
