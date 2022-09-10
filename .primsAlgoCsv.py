@@ -12,21 +12,31 @@ class place:
     def getName(self):
         return self.name
         
-    def addConnection(self,count):
-        for i in range(count):
+    def addConnection(self,setConnect):
+        i=0
+        while(i<len(setConnect)):
             inserter=[]
             #The place name and distance are the connection details
-            placeName=str(input("Enter the name of place "+str(i+1)+" connected to "+self.name+" : "))
+            placeName=setConnect[i]
+            i+=1
             placeName=placeName.capitalize()
-            while((placeName=="") or (placeName==" ")):
-                print("INVALID ENTRY")
-                placeName=str(input("Enter the name of place "+str(i+1)+" connected to "+self.name+" : "))
-                placeName=placeName.capitalize()
             inserter.append(placeName)
-            print("Enter the distance between "+self.name+" and "+placeName+ " : ",end="")
-            distance=int(input())
+            distance=int(setConnect[i])
+            i+=1
             inserter.append(distance)
             self.connection.append(inserter)
+            
+            # placeName=str(input("Enter the name of place "+str(i+1)+" connected to "+self.name+" : "))
+            # placeName=placeName.capitalize()
+            # while((placeName=="") or (placeName==" ")):
+            #     print("INVALID ENTRY")
+            #     placeName=str(input("Enter the name of place "+str(i+1)+" connected to "+self.name+" : "))
+            #     placeName=placeName.capitalize()
+            # inserter.append(placeName)
+            # print("Enter the distance between "+self.name+" and "+placeName+ " : ",end="")
+            # distance=int(input())
+            # inserter.append(distance)
+            # self.connection.append(inserter)
 
     def printConnection(self):
         print(self.connection)
@@ -133,33 +143,29 @@ def PrimsAlgo(PlaceList,start,goal):
 
 
                                 # MAIN PART
+import csv
+csvlist=[]
+with open('give.csv') as file_obj:
+    reader_obj = csv.reader(file_obj)
+    for row in reader_obj:
+        csvlist.append(row)
 
 
-nodeNo=int(input("Enter the number of places in the map : "))
+# nodeNo=len(csvlist)
 allPlaces=[]
-# Creating the all node list
-print("Enter the places In a way,the first entry is the start position")
-for i in range(nodeNo):
-    print("  Enter the name of place ",(i+1)," : ",end="")
-    names=str(input())
+for i in csvlist:
+    names=i[0]
     names=names.capitalize()
-    while((names=="") or (names==" ")):
-                print("      !!! INVALID ENTRY !!!")
-                print("  Enter the name of place ",(i+1)," : ",end="")
-                names=str(input())
-                names=names.capitalize()
     placeObj=place(names)
     allPlaces.append(placeObj)
     
 
+mover=0
 for node in allPlaces:
-    connectionNo=int(input("Enter the number of places connected to "+node.getName()+" : "))
-    node.addConnection(connectionNo)
-# for node in allPlaces:
-#     temp=node.getName()
-#     print(temp)
-#     node.printConnection()
-
+    node.addConnection(csvlist[mover][2:])
+    mover+=1
+    
+    
 startChecker=1
 start=str(input("Enter the start position name : "))
 start=start.capitalize()
@@ -186,3 +192,54 @@ while(goalChecker==1):
         goal=str(input("Enter the start position name : "))
         goal=goal.capitalize()
 PrimsAlgo(allPlaces,start,goal)
+
+    
+    
+# nodeNo=int(input("Enter the number of places in the map : "))
+# allPlaces=[]
+# # Creating the all node list
+# print("Enter the places In a way,the first entry is the start position")
+# for i in range(nodeNo):
+#     print("  Enter the name of place ",(i+1)," : ",end="")
+#     names=str(input())
+#     names=names.capitalize()
+#     while((names=="") or (names==" ")):
+#                 print("      !!! INVALID ENTRY !!!")
+#                 print("  Enter the name of place ",(i+1)," : ",end="")
+#                 names=str(input())
+#                 names=names.capitalize()
+#     placeObj=place(names)
+#     allPlaces.append(placeObj)
+    
+
+# for node in allPlaces:
+#     connectionNo=int(input("Enter the number of places connected to "+node.getName()+" : "))
+#     node.addConnection(connectionNo)
+
+
+# startChecker=1
+# start=str(input("Enter the start position name : "))
+# start=start.capitalize()
+# while(startChecker==1):
+#     for i in allPlaces:
+#         if(i.name==start):
+#             startChecker=0
+#             break
+#     if(startChecker==1):
+#         print("!! Entered start is not in the Map !!")
+#         start=str(input("Enter the start position name : "))
+#         start=start.capitalize()
+
+# goalChecker=1
+# goal=str(input("Enter the final position name : "))
+# goal=goal.capitalize()
+# while(goalChecker==1):
+#     for i in allPlaces:
+#         if(i.name==goal):
+#             goalChecker=0
+#             break
+#     if(goalChecker==1):
+#         print("!! Entered goal is not in the Map !!")
+#         goal=str(input("Enter the start position name : "))
+#         goal=goal.capitalize()
+# PrimsAlgo(allPlaces,start,goal)
