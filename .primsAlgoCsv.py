@@ -1,3 +1,5 @@
+import networkx as nx
+import matplotlib.pyplot as plt
 class place:
     def __init__(self,*args):
         if (len(args)==0):
@@ -25,18 +27,7 @@ class place:
             i+=1
             inserter.append(distance)
             self.connection.append(inserter)
-            
-            # placeName=str(input("Enter the name of place "+str(i+1)+" connected to "+self.name+" : "))
-            # placeName=placeName.capitalize()
-            # while((placeName=="") or (placeName==" ")):
-            #     print("INVALID ENTRY")
-            #     placeName=str(input("Enter the name of place "+str(i+1)+" connected to "+self.name+" : "))
-            #     placeName=placeName.capitalize()
-            # inserter.append(placeName)
-            # print("Enter the distance between "+self.name+" and "+placeName+ " : ",end="")
-            # distance=int(input())
-            # inserter.append(distance)
-            # self.connection.append(inserter)
+
 
     def printConnection(self):
         print(self.connection)
@@ -44,24 +35,18 @@ class place:
 def mergeSort(arr):
 	if len(arr) > 1:
 
-		# Finding the mid of the array
 		mid = len(arr)//2
 
-		# Dividing the array elements
 		L = arr[:mid]
 
-		# into 2 halves
 		R = arr[mid:]
 
-		# Sorting the first half
 		mergeSort(L)
 
-		# Sorting the second half
 		mergeSort(R)
 
 		i = j = k = 0
 
-		# Copy data to temp arrays L[] and R[]
 		while i < len(L) and j < len(R):
 			if L[i][1] < R[j][1]:
 				arr[k] = L[i]
@@ -71,7 +56,6 @@ def mergeSort(arr):
 				j += 1
 			k += 1
 
-		# Checking if any element was left
 		while i < len(L):
 			arr[k] = L[i]
 			i += 1
@@ -122,6 +106,7 @@ def traverse(root,goal,path,Placelist):
         # end if
     # end for 
 # end function
+
 def PrimsAlgo(PlaceList,start,goal):
     path=[]
     for i in allPlaces:
@@ -140,12 +125,75 @@ def PrimsAlgo(PlaceList,start,goal):
         print("path = ",end=" ")
     for each in path:
         print(each.name,end=" ")
+        
+    displayResult(path,PlaceList)
+        
+def displayInitial(PlaceList):
+    processor=[]
+    for node in PlaceList:
+        for i in node.connection:
+            # l is the list to be append into the list processor
+            l=[]
+            l.append(node.name)
+            l.append(i[0])
+            processor.append(l)
+    G=nx.Graph()
+    G.add_edges_from(processor)
+    
+    random_pos = nx.random_layout(G, seed=42) #This two lines to prevent the orientation change of the graph in result and initial state
+    position=nx.spring_layout(G,pos=random_pos)
+
+    nx.draw_networkx_nodes(G,position, node_size=500)
+    nx.draw_networkx_edges(G,position, edgelist=G.edges(), edge_color='black')
+    nx.draw_networkx_labels(G,position)
+    plt.title("Complete Map")
+    plt.figure()
+    plt.savefig('filename1')
 
 
+def displayResult(path,Placelist):
+    # get a edge list for getting the path
+    namePath=[]
+    for each in path:
+        namePath.append(each.name)
+
+    getForm=[]
+    count1=0
+    count2=1
+    while(count2<len(namePath)):
+        inserter=[]
+        inserter.append(namePath[count1])
+        count1+=1
+        inserter.append(namePath[count2])
+        count2+=1
+        getForm.append(inserter)
+        
+    processor=[]
+    for node in Placelist:
+        for i in node.connection:
+            # l is the list to be append into the list processor
+            l=[]
+            l.append(node.name)
+            l.append(i[0])
+            processor.append(l)
+    G=nx.Graph()
+    G.add_edges_from(processor)
+    
+    random_pos = nx.random_layout(G, seed=42) #This two lines to prevent the orientation change of the graph in result and initial state #This two lines to prevent the orientation change of the graph in result and initial state
+    position=nx.spring_layout(G,pos=random_pos)
+    
+    nx.draw_networkx_nodes(G,position,node_size=500)
+    nx.draw_networkx_edges(G,position, edgelist=G.edges(), edge_color='black')
+    nx.draw_networkx_edges(G,position, edgelist=getForm, edge_color='red')
+    nx.draw_networkx_labels(G,position)
+    plt.title("Minimum Spanning Tree")
+    plt.show()
+    
+    
                                 # MAIN PART
 import csv
 csvlist=[]
-with open('give.csv') as file_obj:
+with open('EnterTheMap.csv') as file_obj:
     reader_obj = csv.reader(file_obj)
     for row in reader_obj:
         csvlist.append(row)
@@ -165,6 +213,7 @@ for node in allPlaces:
     node.addConnection(csvlist[mover][2:])
     mover+=1
     
+displayInitial(allPlaces)
     
 startChecker=1
 start=str(input("Enter the start position name : "))
@@ -191,55 +240,5 @@ while(goalChecker==1):
         print("!! Entered goal is not in the Map !!")
         goal=str(input("Enter the start position name : "))
         goal=goal.capitalize()
+        
 PrimsAlgo(allPlaces,start,goal)
-
-    
-    
-# nodeNo=int(input("Enter the number of places in the map : "))
-# allPlaces=[]
-# # Creating the all node list
-# print("Enter the places In a way,the first entry is the start position")
-# for i in range(nodeNo):
-#     print("  Enter the name of place ",(i+1)," : ",end="")
-#     names=str(input())
-#     names=names.capitalize()
-#     while((names=="") or (names==" ")):
-#                 print("      !!! INVALID ENTRY !!!")
-#                 print("  Enter the name of place ",(i+1)," : ",end="")
-#                 names=str(input())
-#                 names=names.capitalize()
-#     placeObj=place(names)
-#     allPlaces.append(placeObj)
-    
-
-# for node in allPlaces:
-#     connectionNo=int(input("Enter the number of places connected to "+node.getName()+" : "))
-#     node.addConnection(connectionNo)
-
-
-# startChecker=1
-# start=str(input("Enter the start position name : "))
-# start=start.capitalize()
-# while(startChecker==1):
-#     for i in allPlaces:
-#         if(i.name==start):
-#             startChecker=0
-#             break
-#     if(startChecker==1):
-#         print("!! Entered start is not in the Map !!")
-#         start=str(input("Enter the start position name : "))
-#         start=start.capitalize()
-
-# goalChecker=1
-# goal=str(input("Enter the final position name : "))
-# goal=goal.capitalize()
-# while(goalChecker==1):
-#     for i in allPlaces:
-#         if(i.name==goal):
-#             goalChecker=0
-#             break
-#     if(goalChecker==1):
-#         print("!! Entered goal is not in the Map !!")
-#         goal=str(input("Enter the start position name : "))
-#         goal=goal.capitalize()
-# PrimsAlgo(allPlaces,start,goal)

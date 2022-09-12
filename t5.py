@@ -1,12 +1,12 @@
-import csv
-# Open file 
-with open('give.csv') as file_obj:
-    
-    # Create reader object by passing the file 
-    # object to reader method
-    reader_obj = csv.reader(file_obj)
-    
-    # Iterate over each row in the csv 
-    # file using reader object
-    for row in reader_obj:
-        print(row)
+import networkx as nx
+import matplotlib.pyplot as plt
+
+G=nx.Graph()
+G.add_weighted_edges_from([ ['A','B',1],['A','C',2],[ 'C','B',10] ])
+
+pos=nx.spring_layout(G)
+
+nx.draw_networkx_nodes(G,pos, node_size=500)
+nx.draw_networkx_edges(G,pos, edgelist=G.edges(), edge_color='black')
+nx.draw_networkx_labels(G,pos)
+plt.show()

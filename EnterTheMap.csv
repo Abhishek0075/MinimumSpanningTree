@@ -1,4 +1,9 @@
-Amritsar,1,Delhi,2
-Delhi,3,AMRItsar,2,KerALa,3,Haridwar,4
-KeRAla,1,Delhi,3
-Haridwar,1,DeLhi,4
+India,2,Africa,2,America,7
+Africa,1,England,3
+America,1,Finland,8
+Finland,3,America,8,croatia,4,canada,2
+croatia,3,Finland,4,canada,3,Dubai,3
+canada,3,croatia,3,Finland,2,England,4
+England,3,Africa,3,canada,4,Srilanka,6
+Srilanka,2,England,6,Dubai,7
+Dubai,2,croatia,3,Srilanka,7
