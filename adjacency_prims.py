@@ -1,6 +1,8 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
+global pathDistance
+global dis
 class place:
     def __init__(self,*args):
         if (len(args)==0):
@@ -15,24 +17,27 @@ class place:
     def getName(self):
         return self.name
 
-    def addConnection(self,setConnect):
-        i=0
-        while(i<len(setConnect)):
-            inserter=[]
-            #The place name and distance are the connection details
-            placeName=setConnect[i]
-            i+=1
-            placeName=placeName.capitalize()
-            inserter.append(placeName)
-            distance=int(setConnect[i])
-            i+=1
-            inserter.append(distance)
-            self.connection.append(inserter)
-
-
     def printConnection(self):
         print(self.connection)
-        
+
+#end of Class PLace
+
+
+def addConnection(Placelist,adjmatrixList):
+    count=0
+    for i in (adjmatrixList):
+        j=0
+        while(j<len(i)):
+            if(int(i[j])!=0):
+                inserter=[]
+                inserter.append(Placelist[j].name)
+                inserter.append(int(i[j]))
+                Placelist[count].connection.append(inserter)
+            j+=1
+
+        count+=1
+
+                            #MERGE SOrt
 def mergeSort(arr):
 	if len(arr) > 1:
 
@@ -68,7 +73,9 @@ def mergeSort(arr):
 			k += 1
 	return arr
 
+                                #TRAVERSE
 def traverse(root,goal,path,Placelist):
+    global pathDistance
     if(root.name==goal):
         return 0
     # end if 
@@ -96,6 +103,7 @@ def traverse(root,goal,path,Placelist):
     # end for
     for i in Placelist:
         if(min[0]==i.name):
+            pathDistance=pathDistance+min[1]
             path.append(i)
             for i in path:
                 print(i.name,end=" ")
@@ -105,11 +113,12 @@ def traverse(root,goal,path,Placelist):
         # end if
     # end for 
 # end function
-
 def PrimsAlgo(PlaceList,start,goal):
+    global pathDistance
     path=[]
-    for i in allPlaces:
-        if(i.name==start): 
+    pathDistance=0
+    for i in PlaceList:
+        if(i.name==start):
             startObj=i
             break
     path.append(startObj)
@@ -125,6 +134,8 @@ def PrimsAlgo(PlaceList,start,goal):
     for each in path:
         print(each.name,end=" ")
         
+    print()
+    print("Path Distance = ",pathDistance)
     displayResult(path,PlaceList)
         
 def displayInitial(PlaceList):
@@ -142,7 +153,7 @@ def displayInitial(PlaceList):
     random_pos = nx.random_layout(G,seed=38) #This two lines to prevent the orientation change of the graph in result and initial state
     position=nx.spring_layout(G,pos=random_pos)
 
-    nx.draw_networkx_nodes(G,position, node_size=500)
+    nx.draw_networkx_nodes(G,position, node_size=200)
     nx.draw_networkx_edges(G,position, edgelist=G.edges(), edge_color='black')
     nx.draw_networkx_labels(G,position)
     plt.plot(1)
@@ -179,45 +190,46 @@ def displayResult(path,Placelist):
             
     G=nx.Graph()
     G.add_edges_from(processor)
-    
     random_pos = nx.random_layout(G, seed=38) #This two lines to prevent the orientation change of the graph in result and initial state #This two lines to prevent the orientation change of the graph in result and initial state
     position=nx.spring_layout(G,pos=random_pos)
     elist=[]
     for i in getForm:
         elist.append(i)
-        nx.draw_networkx_nodes(G,position,node_size=500)
-        nx.draw_networkx_edges(G,position, edgelist=G.edges(), edge_color='black')
-        nx.draw_networkx_edges(G,position, edgelist=elist,width=7, edge_color='red')
+        nx.draw_networkx_nodes(G,position,node_size=450)
+        nx.draw_networkx_edges(G,position, edgelist=G.edges(),edge_color='black')
+        nx.draw_networkx_edges(G,position,edgelist=elist, width=7,edge_color='red')
         nx.draw_networkx_labels(G,position)
         plt.savefig('resultMap')
         plt.title("Minimum Spanning Tree")
-        plt.pause(1)#To constantly according to the current input which is here the path edge
+        words="Path Distance = "+str(pathDistance)
+        plt.text(0.93,1.2,words,transform=plt.gca().transAxes)
+        plt.pause(1) # To constantly according to the current input which is here the path edge
     plt.show()
     
     
                                 # MAIN PART
 import csv
 csvlist=[]
-with open('EnterTheMap.csv') as file_obj:
+with open('n.csv') as file_obj:
     reader_obj = csv.reader(file_obj)
     for row in reader_obj:
         csvlist.append(row)
-
-
-# nodeNo=len(csvlist)
+    
 allPlaces=[]
-for i in csvlist:
-    names=i[0]
-    names=names.capitalize()
-    placeObj=place(names)
-    allPlaces.append(placeObj)
-    
-print(csvlist)
-mover=0
-for node in allPlaces:
-    node.addConnection(csvlist[mover][2:])
-    mover+=1
-    
+for i in range(len(csvlist)):
+    print("Enter the name of place",i+1,": ")
+    placeName=str(input())
+    while(placeName=="" or placeName==" "):
+        print("!!! Invalid entry !!!")
+        print("Enter the name of place",i,": ")
+        placeName=str(input())
+    placeName=placeName.capitalize()
+    allPlaces.append(place(placeName))
+
+
+addConnection(allPlaces,csvlist)
+print("hai")
+
 displayInitial(allPlaces)
     
 startChecker=1

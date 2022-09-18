@@ -1,12 +1,14 @@
-import networkx as nx
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as mtplt
+import numpy as np
+import pylab as plt
 
-G=nx.Graph()
-G.add_weighted_edges_from([ ['A','B',1],['A','C',2],[ 'C','B',10] ])
+a = np.array([1,2,3,4,5,6,7,8,9,10])
+b = np.array([7,8,6,3,2,1,5,8,4,15])
+c = plt.plot(a,b,'.')
+d = 5
+plt.text(0.5,
+         0.67,
+         "d = {}".format(d),
+         transform=plt.gca().transAxes)
 
-pos=nx.spring_layout(G)
-
-nx.draw_networkx_nodes(G,pos, node_size=500)
-nx.draw_networkx_edges(G,pos, edgelist=G.edges(), edge_color='black')
-nx.draw_networkx_labels(G,pos)
 plt.show()
