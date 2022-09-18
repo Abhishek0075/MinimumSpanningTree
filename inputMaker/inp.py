@@ -18,12 +18,15 @@ class matrix:
         for i in range(numElement):
             n=rd.randint(0,self.dimension-1)
             m=rd.randint(0,self.dimension-1)
+            while(m==n):
+                n=rd.randint(0,self.dimension-1)
+                m=rd.randint(0,self.dimension-1)
             randomNum=rd.randint(0,9)
             self.arr[m,n]=randomNum
             self.arr[n,m]=randomNum
             
         
 t=matrix(50)
-t.createArr(90)
+t.createArr(100)
 t.printArr()
 

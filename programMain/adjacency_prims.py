@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 global pathDistance
-global dis
+
 class place:
     def __init__(self,*args):
         if (len(args)==0):
@@ -76,6 +76,7 @@ def mergeSort(arr):
                                 #TRAVERSE
 def traverse(root,goal,path,Placelist):
     global pathDistance
+
     if(root.name==goal):
         return 0
     # end if 
@@ -103,6 +104,7 @@ def traverse(root,goal,path,Placelist):
     # end for
     for i in Placelist:
         if(min[0]==i.name):
+            
             pathDistance=pathDistance+min[1]
             path.append(i)
             for i in path:
@@ -152,16 +154,15 @@ def displayInitial(PlaceList):
     
     random_pos = nx.random_layout(G,seed=38) #This two lines to prevent the orientation change of the graph in result and initial state
     position=nx.spring_layout(G,pos=random_pos)
-
     nx.draw_networkx_nodes(G,position, node_size=200)
     nx.draw_networkx_edges(G,position, edgelist=G.edges(), edge_color='black')
     nx.draw_networkx_labels(G,position)
     plt.plot(1)
     plt.savefig('intialMap')
     plt.title("Complete Map")
+    plt.axis('off')
     plt.figure()
     plt.show(block=False)
-
 def displayResult(path,Placelist):
     # get a edge list for getting the path
     namePath=[]
@@ -202,6 +203,7 @@ def displayResult(path,Placelist):
         plt.savefig('resultMap')
         plt.title("Minimum Spanning Tree")
         words="Path Distance = "+str(pathDistance)
+        plt.axis('off')
         plt.text(0.93,1.2,words,transform=plt.gca().transAxes)
         plt.pause(1) # To constantly according to the current input which is here the path edge
     plt.show()
