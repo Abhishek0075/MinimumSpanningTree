@@ -27,10 +27,9 @@ class matrix:
             
 
 import sys
-f=open("csvFile/test.csv","w")
+f=open(r"C:\Users\abhir\OneDrive\Documents\GitHub\project_ds\csvFile\adj.csv","w")
 sys.stdout=f
 t=matrix(50)
 t.createArr(100)
 t.printArr()
 f.close()
-

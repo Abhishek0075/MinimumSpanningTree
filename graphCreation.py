@@ -11,6 +11,6 @@ val_map={'A':1.00,'E':0.00}
 value=[val_map.get(nodes,0.25) for nodes in G.nodes()]
 print(value)
 nx.draw_networkx_nodes(G,pos,cmap=plt.get_cmap('Greens') ,node_size=500,node_color=value)
-nx.draw_networkx_edges(G,pos, edgelist=G.edges(), edge_color='black')
+nx.draw_networkx_edges(G,pos, edgelist=G.edges(), edge_color='red')
 nx.draw_networkx_labels(G,pos)
 plt.show()
