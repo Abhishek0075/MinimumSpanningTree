@@ -25,8 +25,12 @@ class matrix:
             self.arr[m,n]=randomNum
             self.arr[n,m]=randomNum
             
-        
+
+import sys
+f=open("csvFile/test.csv","w")
+sys.stdout=f
 t=matrix(50)
 t.createArr(100)
 t.printArr()
+f.close()
 

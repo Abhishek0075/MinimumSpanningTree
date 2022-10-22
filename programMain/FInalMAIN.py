@@ -226,7 +226,7 @@ def displayResult(path,distance,Placelist):
                                 # MAIN PART
 import csv
 csvlist=[]
-with open('adj.csv') as file_obj:
+with open('csvFile/adj.csv') as file_obj:
     reader_obj = csv.reader(file_obj)
     for row in reader_obj:
         csvlist.append(row)

@@ -152,7 +152,7 @@ def displayInitial(PlaceList):
     nx.draw_networkx_edges(G,position, edgelist=G.edges(), edge_color='black')
     nx.draw_networkx_labels(G,position)
     plt.plot(1)
-    plt.savefig('intialMap')
+    plt.savefig('plotImage\intialMap')
     plt.title("Complete Map")
     plt.axis('off')
     plt.figure()
@@ -214,7 +214,7 @@ def displayResult(path,distance,Placelist):
         weight=nx.get_edge_attributes(G,'weight')
         nx.draw_networkx_labels(G,position)
         nx.draw_networkx_edge_labels(G,position,edge_labels=weight)
-        plt.savefig('resultMap')
+        plt.savefig('plotImage\resultMap')
         plt.title("Minimum Spanning Tree")
         words="Path Distance = "+str(pathDistance)
         plt.axis('off')
@@ -226,7 +226,7 @@ def displayResult(path,distance,Placelist):
                                 # MAIN PART
 import csv
 csvlist=[]
-with open('adj.csv') as file_obj:
+with open('csvFile/adj.csv') as file_obj:
     reader_obj = csv.reader(file_obj)
     for row in reader_obj:
         csvlist.append(row)
