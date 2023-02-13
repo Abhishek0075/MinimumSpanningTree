@@ -35,7 +35,7 @@ def addConnection(Placelist,adjmatrixList):
 
         count+=1
 
-                            #MERGE SOrt
+                            #MERGE SORT
 def mergeSort(arr):
 	if len(arr) > 1:
 
@@ -72,6 +72,7 @@ def mergeSort(arr):
 	return arr
 
                                 #TRAVERSE
+                                
 def traverse(root,distance,goal,path,Placelist):
     if(root.name==goal):
         return 0
